@@ -22,6 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const animatedElements = document.querySelectorAll('.animate-on-scroll');
   animatedElements.forEach(el => observer.observe(el));
 
+  // --- Active Navbar Highlighting ---
+  const navLinks = document.querySelectorAll('.nav-link[data-section]');
+  const sections = document.querySelectorAll('section[id], footer[id]');
+
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach(link => {
+          const isActive = link.getAttribute('data-section') === id;
+          link.classList.toggle('active-nav', isActive);
+        });
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-40% 0px -40% 0px', // Triggers when section occupies the middle 20% of the viewport
+    threshold: 0
+  });
+
+  sections.forEach(section => navObserver.observe(section));
+
   // Copy to clipboard logic
   const copyBtns = document.querySelectorAll('.copy-btn');
   copyBtns.forEach(btn => {
@@ -39,3 +61,4 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+

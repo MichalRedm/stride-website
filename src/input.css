@@ -21,4 +21,29 @@
     background-color: #94a3b8;
     /* Tailwind slate-400 */
   }
+
+  /* Active nav highlight — animated gradient underline */
+  .nav-link {
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #0d9488, #f97316);
+    border-radius: 2px;
+    transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-link.active-nav {
+    color: #0f172a;
+  }
+
+  .nav-link.active-nav::after {
+    width: 100%;
+  }
 }
