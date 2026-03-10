@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRIDE: STReam Insight and Drift Explanation</title>
+  <link rel="icon" type="image/png" href="./assets/img/stride_icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <link rel="stylesheet" href="./assets/css/output.css">
+
+  <!-- Custom animations via CSS for Hero block -->
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(2.5rem);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+
+  <!-- Main JS -->
+  <script src="./assets/js/main.js" defer></script>
+</head>
+
+<body
+  class="bg-slate-50 text-slate-800 font-sans antialiased overflow-x-hidden selection:bg-secondary-accent selection:text-white">
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <div class="flex-shrink-0 font-montserrat font-extrabold text-2xl tracking-tight text-primary-dark">
+          STRIDE<span class="text-secondary-accent">.</span>
+        </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="#about"
+            class="text-sm font-semibold uppercase tracking-wider text-slate-500 hover:text-secondary-accent transition-colors">About</a>
+          <a href="#demo"
+            class="text-sm font-semibold uppercase tracking-wider text-slate-500 hover:text-secondary-accent transition-colors">Demo</a>
+          <a href="#architecture"
+            class="text-sm font-semibold uppercase tracking-wider text-slate-500 hover:text-secondary-accent transition-colors">Architecture</a>
+          <a href="#quickstart"
+            class="text-sm font-semibold uppercase tracking-wider text-slate-500 hover:text-secondary-accent transition-colors">Quickstart</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-20">
+    <!-- 1. Hero Block -->
+    <section class="relative min-h-[calc(100vh-5rem)] py-8 md:py-12 flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0 bg-gradient-to-br from-slate-50 to-slate-100"></div>
+      <!-- Decorative background blobs -->
+      <div
+        class="absolute top-20 left-10 w-72 h-72 bg-secondary-accent/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float">
+      </div>
+      <div
+        class="absolute -bottom-20 right-20 w-72 h-72 bg-highlight-action/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-float"
+        style="animation-delay: 1s"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid lg:grid-cols-2 gap-12 items-center">
+        <div class="opacity-0 translate-y-10 animate-[fadeInUp_1s_ease-out_forwards]">
+          <h1
+            class="font-montserrat text-5xl sm:text-6xl font-extrabold text-primary-dark tracking-tight leading-tight mb-6">
+            STReam Insight & <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary-accent to-highlight-action">Drift
+              Explanation</span>
+          </h1>
+          <p class="text-lg sm:text-xl text-slate-600 mb-8 leading-relaxed font-inter">
+            A comprehensive Python toolkit for concept drift detection and explanation. STRIDE provides a simultaneous,
+            real-time analysis of streaming data across statistical, model performance, and explainability layers to
+            reveal not just <em>when</em> drift occurs, but <em>how</em> and <em>where</em> it affects your models.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="https://github.com/KubaCzech/DriftDetectionWithExplainableAI" target="_blank"
+              class="bg-primary-dark text-white px-8 py-3 rounded-full font-semibold shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              GitHub Repository
+            </a>
+            <a href="#"
+              class="bg-white text-primary-dark border border-slate-200 px-8 py-3 rounded-full font-semibold shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              Read Paper (PDF)
+            </a>
+            <a href="#"
+              class="bg-secondary-accent/10 text-secondary-accent border border-secondary-accent/20 px-8 py-3 rounded-full font-semibold shadow-sm hover:bg-secondary-accent/20 transition-all duration-300">
+              Live Dashboard
+            </a>
+          </div>
+        </div>
+
+        <div class="relative opacity-0 translate-y-10 animate-[fadeInUp_1.2s_ease-out_forwards_0.3s]">
+          <div
+            class="relative rounded-2xl p-2 bg-white/50 backdrop-blur-xl border border-white/60 shadow-2xl animate-float">
+            <div
+              class="bg-white rounded-xl aspect-video flex items-center justify-center border border-slate-300 relative overflow-hidden group">
+              <img src="./assets/img/stride_logo.png" alt="STRIDE Logo"
+                class="object-contain w-full h-full p-4 z-10 group-hover:scale-105 transition-transform duration-700">
+              <div class="absolute inset-0 bg-gradient-to-tr from-secondary-accent/5 to-transparent z-0"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. The ECML Compliance Block -->
+    <section id="about" class="py-24 bg-white relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="text-center mb-16 animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0">
+          <h2 class="font-montserrat text-3xl md:text-4xl font-bold text-primary-dark mb-4">Why Choose STRIDE?</h2>
+          <p class="text-slate-500 max-w-3xl mx-auto text-lg">
+            Designed to assist both scientific researchers evaluating new drift dynamics and data analysts monitoring
+            production ML systems. By bringing three analytical levels together in one dashboard, users are empowered to
+            perform complex, on-the-fly forensic analysis of their data streams.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Card 1 -->
+          <div
+            class="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0 bg-white/70 backdrop-blur-md shadow-lg border border-slate-100 rounded-2xl p-8 hover:shadow-2xl hover:-translate-y-2 group">
+            <div
+              class="w-12 h-12 rounded-lg bg-secondary-accent/10 flex items-center justify-center mb-6 group-hover:bg-secondary-accent group-hover:text-white transition-colors duration-300 text-secondary-accent">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="font-montserrat text-xl font-bold text-primary-dark mb-3">Unified Diagnostics</h3>
+            <p class="text-slate-600 leading-relaxed text-sm">
+              Instead of isolated detectors, STRIDE integrates Data, Model, and Explanation views into a cohesive,
+              tab-based workflow. Users can seamlessly transition between statistical metrics and xAI boundaries for an
+              exact point in time.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-100 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0 bg-white/70 backdrop-blur-md shadow-lg border border-slate-100 rounded-2xl p-8 hover:shadow-2xl hover:-translate-y-2 group">
+            <div
+              class="w-12 h-12 rounded-lg bg-highlight-action/10 flex items-center justify-center mb-6 group-hover:bg-highlight-action group-hover:text-white transition-colors duration-300 text-highlight-action">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-montserrat text-xl font-bold text-primary-dark mb-3">Beyond Detection</h3>
+            <p class="text-slate-600 leading-relaxed text-sm">
+              Standard drift detectors only indicate <em>when</em> a model fails. STRIDE bridges this critical gap,
+              utilizing localized decision boundary mapping and prototype-based clustering to pinpoint exactly <em>which
+                specific regions</em> of the feature space transformed.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 delay-200 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0 bg-white/70 backdrop-blur-md shadow-lg border border-slate-100 rounded-2xl p-8 hover:shadow-2xl hover:-translate-y-2 group">
+            <div
+              class="w-12 h-12 rounded-lg bg-primary-dark/10 flex items-center justify-center mb-6 group-hover:bg-primary-dark group-hover:text-white transition-colors duration-300 text-primary-dark">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                </path>
+              </svg>
+            </div>
+            <h3 class="font-montserrat text-xl font-bold text-primary-dark mb-3">Interactive Exploration</h3>
+            <p class="text-slate-600 leading-relaxed text-sm">
+              By shifting from rigid pipeline alerts to a reactive dashboard, analysts can dynamically switch datasets,
+              tweak base models, and compute on-demand explanations, deeply interacting with the changing phenomena.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Video Demonstration -->
+    <section id="demo" class="py-24 bg-slate-50 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-3 gap-12 items-center">
+          <div
+            class="lg:col-span-1 animate-on-scroll opacity-0 -translate-x-12 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-x-0">
+            <h2 class="font-montserrat text-3xl font-bold text-primary-dark mb-6">Interactive Demo</h2>
+            <p class="text-slate-600 mb-8">Follow along as we track a generated Hyperplane drift scenario through the
+              three analytical layers.</p>
+
+            <div
+              class="relative h-[360px] bg-slate-200/30 rounded-2xl border border-slate-200 shadow-inner overflow-hidden group/scroll">
+              <!-- Top Blur -->
+              <div
+                class="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-slate-100 to-transparent z-10 pointer-events-none">
+              </div>
+
+              <div class="space-y-3 h-full overflow-y-auto px-4 pb-10 pt-6 custom-scrollbar">
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">0:00</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">
+                      Introduction</h4>
+                    <p class="text-xs text-slate-500 mt-1">Why traditional detection methods are insufficient.</p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">0:45</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">
+                      Configuration</h4>
+                    <p class="text-xs text-slate-500 mt-1">Setting block sizes and selecting Hyperplane drift.</p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">1:30</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">Model
+                      Layer</h4>
+                    <p class="text-xs text-slate-500 mt-1">Utilizing DDM for error rate spikes.</p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">2:15</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">Data
+                      Layer
+                      Diagnostics</h4>
+                    <p class="text-xs text-slate-500 mt-1">Inspecting class shifts and mapping X-means clusters.</p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">3:00</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">Decision
+                      Boundaries</h4>
+                    <p class="text-xs text-slate-500 mt-1">Visualizing Supervised Decision Boundary Maps.</p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">3:45</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">Feature
+                      Importance</h4>
+                    <p class="text-xs text-slate-500 mt-1">Comparing metrics vs. their importance as drift indicator.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                  <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">4:30</span>
+                  <div class="flex-1">
+                    <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">
+                      Conclusion
+                    </h4>
+                    <p class="text-xs text-slate-500 mt-1">Summary and invitation to explore the toolkit.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bottom Blur -->
+              <div
+                class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-slate-100 to-transparent z-10 pointer-events-none">
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="lg:col-span-2 relative animate-on-scroll opacity-0 translate-x-12 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-x-0">
+            <div
+              class="relative rounded-2xl p-3 bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-500">
+              <!-- Placeholder for iframe -->
+              <div
+                class="aspect-video bg-slate-800 rounded-xl overflow-hidden relative flex items-center justify-center group cursor-pointer">
+                <div class="text-slate-400 font-inter text-sm flex flex-col items-center">
+                  <div
+                    class="w-16 h-16 mb-4 rounded-full bg-slate-700/80 flex items-center justify-center group-hover:bg-highlight-action transition-colors duration-300">
+                    <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z">
+                      </path>
+                    </svg>
+                  </div>
+                  <span class="group-hover:text-white transition-colors">[ YouTube / Vimeo Video Embed ]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. System Architecture -->
+    <section id="architecture" class="py-24 bg-white relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="text-center mb-16 animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0">
+          <h2 class="font-montserrat text-3xl md:text-4xl font-bold text-primary-dark mb-4">The Three-Layer Architecture
+          </h2>
+          <p class="text-slate-500 max-w-2xl mx-auto text-lg">STRIDE orchestrates a diverse set of analytical methods
+            across three functional layers.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          <!-- Image slides in from left -->
+          <div
+            class="lg:col-span-7 relative animate-on-scroll opacity-0 -translate-x-16 transition-all duration-1000 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-x-0">
+            <div
+              class="bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-inner flex items-center justify-center group">
+              <img src="./assets/img/pipeline.png" alt="Architecture Pipeline"
+                class="max-w-full h-auto rounded-lg shadow-md group-hover:scale-[1.03] transition-transform duration-700">
+            </div>
+          </div>
+
+          <!-- Text slides in from right -->
+          <div
+            class="lg:col-span-5 space-y-8 animate-on-scroll opacity-0 translate-x-16 transition-all duration-1000 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-x-0">
+
+            <div
+              class="bg-white/80 backdrop-blur border-l-4 border-slate-400 pl-6 py-4 shadow-sm rounded-r-xl hover:shadow-md transition-shadow">
+              <h3 class="font-montserrat font-bold text-xl text-primary-dark mb-2">1. The Data Layer <span
+                  class="text-sm font-normal text-slate-500 ml-2">(Statistical & Clustering)</span></h3>
+              <p class="text-slate-600 text-sm leading-relaxed">Monitors the input distribution independent of the
+                model. Employs descriptive statistics, unsupervised tests (KS, AD), probability divergences
+                (Wasserstein), and X-means clustering with the Hungarian algorithm.</p>
+            </div>
+
+            <div
+              class="bg-white/80 backdrop-blur border-l-4 border-highlight-action pl-6 py-4 shadow-sm rounded-r-xl hover:shadow-md transition-shadow">
+              <h3 class="font-montserrat font-bold text-xl text-primary-dark mb-2">2. The Model Layer <span
+                  class="text-sm font-normal text-highlight-action ml-2">(Performance Triggers)</span></h3>
+              <p class="text-slate-600 text-sm leading-relaxed">Tracks predictive performance using standard drift
+                detectors, including DDM and its extensions (available via the River library backend).</p>
+            </div>
+
+            <div
+              class="bg-white/80 backdrop-blur border-l-4 border-secondary-accent pl-6 py-4 shadow-sm rounded-r-xl hover:shadow-md transition-shadow">
+              <h3 class="font-montserrat font-bold text-xl text-primary-dark mb-2">3. The Explanation Layer <span
+                  class="text-sm font-normal text-secondary-accent ml-2">(xAI)</span></h3>
+              <p class="text-slate-600 text-sm leading-relaxed">Bridges detection and understanding using Supervised
+                Decision Boundary Maps, HDBSCAN for prototype analysis, and dual feature importance analysis (predictive
+                vs. drift indicator value).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Technical Quickstart -->
+    <section id="quickstart" class="py-24 bg-slate-900 relative">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="text-center mb-12 animate-on-scroll opacity-0 translate-y-10 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0">
+          <h2 class="font-montserrat text-3xl font-bold text-white mb-4">Getting Started</h2>
+          <p class="text-slate-400">To get a local copy up and running, follow these simple steps.</p>
+        </div>
+
+        <div class="space-y-8">
+
+          <div
+            class="animate-on-scroll opacity-0 translate-y-5 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0">
+            <h3 class="text-xl font-bold text-white mb-3 font-montserrat">Prerequisites</h3>
+            <ul class="list-disc list-inside text-slate-400 space-y-1 ml-2">
+              <li>Python 3.10-3.12</li>
+              <li>pip</li>
+            </ul>
+          </div>
+
+          <div
+            class="animate-on-scroll opacity-0 translate-y-5 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0">
+            <h3 class="text-xl font-bold text-white mb-4 font-montserrat">Installation</h3>
+            <div class="space-y-6 pl-4">
+
+              <!-- Step 1 -->
+              <div>
+                <h4 class="text-white font-semibold mb-3">1. Clone the repository</h4>
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-xl relative group">
+                  <div class="flex items-center px-4 py-3 bg-slate-950/50 border-b border-slate-700/50">
+                    <div class="flex space-x-2">
+                      <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div class="mx-auto text-xs text-slate-500 font-mono">bash</div>
+                    <button class="copy-btn text-slate-500 hover:text-white transition-colors"
+                      data-code="git clone https://github.com/KubaCzech/DriftDetectionWithExplainableAI.git&#10;cd DriftDetectionWithExplainableAI">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="p-6 overflow-x-auto text-sm font-mono leading-relaxed text-slate-300">
+                    <span class="text-highlight-action">git clone</span>
+                    https://github.com/KubaCzech/DriftDetectionWithExplainableAI.git<br>
+                    <span class="text-secondary-accent">cd</span> DriftDetectionWithExplainableAI
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div>
+                <h4 class="text-white font-semibold mb-3">2. Create a virtual environment</h4>
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-xl relative group">
+                  <div class="flex items-center px-4 py-3 bg-slate-950/50 border-b border-slate-700/50">
+                    <div class="flex space-x-2">
+                      <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div class="mx-auto text-xs text-slate-500 font-mono">bash</div>
+                    <button class="copy-btn text-slate-500 hover:text-white transition-colors"
+                      data-code="python -m venv .venv&#10;# Windows&#10;.venv\Scripts\activate&#10;# macOS/Linux&#10;source .venv/bin/activate">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="p-6 overflow-x-auto text-sm font-mono leading-relaxed text-slate-300">
+                    <span class="text-purple-400">python</span> -m venv .venv<br>
+                    <span class="text-slate-500"># Windows</span><br>
+                    .venv\Scripts\activate<br>
+                    <span class="text-slate-500"># macOS/Linux</span><br>
+                    <span class="text-secondary-accent">source</span> .venv/bin/activate
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div>
+                <h4 class="text-white font-semibold mb-3">3. Install dependencies</h4>
+                <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-xl relative group">
+                  <div class="flex items-center px-4 py-3 bg-slate-950/50 border-b border-slate-700/50">
+                    <div class="flex space-x-2">
+                      <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                      <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                    </div>
+                    <div class="mx-auto text-xs text-slate-500 font-mono">bash</div>
+                    <button class="copy-btn text-slate-500 hover:text-white transition-colors"
+                      data-code="pip install -r requirements.txt">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                        </path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="p-6 overflow-x-auto text-sm font-mono leading-relaxed text-slate-300">
+                    <span class="text-highlight-action">pip</span> install -r requirements.txt
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div
+            class="animate-on-scroll opacity-0 translate-y-5 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0 pt-8 mt-8 border-t border-slate-800">
+            <h3 class="text-xl font-bold text-white mb-3 font-montserrat">Running the Dashboard</h3>
+            <p class="text-slate-400 mb-4">The primary interface for this project is the Streamlit dashboard.</p>
+
+            <div class="bg-slate-800 rounded-xl overflow-hidden border border-slate-700 shadow-xl relative group">
+              <div class="flex items-center px-4 py-3 bg-slate-950/50 border-b border-slate-700/50">
+                <div class="flex space-x-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                </div>
+                <div class="mx-auto text-xs text-slate-500 font-mono">bash</div>
+                <button class="copy-btn text-slate-500 hover:text-white transition-colors"
+                  data-code="streamlit run dashboard/app.py">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+              <div class="p-6 overflow-x-auto text-sm font-mono leading-relaxed text-slate-300">
+                <span class="text-purple-400">streamlit</span> run dashboard/app.py
+              </div>
+            </div>
+
+            <p class="text-slate-400 mt-4 text-sm">Once running, navigate to the URL provided in the terminal (usually
+              <code class="bg-slate-800 px-1 py-0.5 rounded text-slate-300">http://localhost:8501</code>).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Academic Metadata -->
+    <footer class="bg-primary-dark pt-16 pb-8 text-slate-400 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
+          <div>
+            <div class="font-montserrat font-extrabold text-2xl tracking-tight text-white mb-6">
+              STRIDE<span class="text-secondary-accent">.</span>
+            </div>
+            <h4 class="text-white font-semibold mb-2 font-montserrat">Authors & Affiliations</h4>
+            <p class="text-sm leading-relaxed">
+              Deniz Aksoy, Kuba Czech, Wojciech Nagórka, Michał Redmer, Jerzy Stefanowski<br>
+              <span class="italic text-slate-500">Poznań University of Technology, Institute of Computing
+                Sciences</span>
+            </p>
+          </div>
+          <div>
+            <h4 class="text-white font-semibold mb-4 font-montserrat">Citation (BibTeX)</h4>
+            <div
+              class="bg-slate-900/80 p-5 rounded-xl border border-slate-700 text-xs font-mono overflow-x-auto shadow-inner text-slate-300">
+              @inproceedings{stride2026,
+              title={STReam Insight and Drift Explanation (STRIDE): a Python Toolkit for Concept Drift Detection and
+              Explanation},
+              author={Aksoy, Deniz and Czech, Kuba and Nagórka, Wojciech and Redmer, Michał and Stefanowski, Jerzy},
+              booktitle={ECML PKDD [PLACEHOLDER]},
+              year={2026}
+              }
+            </div>
+          </div>
+        </div>
+        <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
+          <p>&copy; 2026 STRIDE Project. Open Source.</p>
+          <div class="mt-4 md:mt-0 space-x-4">
+            <a href="https://github.com/KubaCzech/DriftDetectionWithExplainableAI" target="_blank"
+              class="hover:text-white transition-colors">GitHub Repository</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "stride-website",
+  "version": "1.0.0",
+  "description": "STRIDE Website",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./assets/css/output.css --minify",
+    "dev": "tailwindcss -i ./src/input.css -o ./assets/css/output.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
