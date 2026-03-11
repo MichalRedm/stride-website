@@ -72,10 +72,21 @@ document.addEventListener("DOMContentLoaded", () => {
       .then(data => {
         // Render timestamps
         data.forEach((item) => {
+          const parts = item.time.split(':');
+          let displayTime = item.time;
+          if (parts.length > 0) {
+            const lastPart = parts[parts.length - 1];
+            if (lastPart.includes('.')) {
+              parts[parts.length - 1] = Math.floor(parseFloat(lastPart)).toString().padStart(2, '0');
+              displayTime = parts.join(':');
+            }
+          }
+
           const div = document.createElement('div');
           div.className = "flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group";
+          div.dataset.time = item.time;
           div.innerHTML = `
-            <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">${item.time}</span>
+            <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">${displayTime}</span>
             <div class="flex-1">
               <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">${item.title}</h4>
               <p class="text-xs text-slate-500 mt-1">${item.description}</p>
@@ -95,16 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Parse timestamps
     const timestamps = Array.from(timestampButtons).map(btn => {
-      const timeSpan = btn.querySelector('span');
-      const timeStr = timeSpan ? timeSpan.textContent.trim() : '0:00';
+      const timeStr = btn.dataset.time || '0:00';
       const parts = timeStr.split(':');
       let seconds = 0;
       if (parts.length === 2) {
-        seconds = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+        seconds = parseInt(parts[0], 10) * 60 + parseFloat(parts[1]);
       } else if (parts.length === 3) {
-        seconds = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseInt(parts[2], 10);
+        seconds = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseFloat(parts[2]);
       } else {
-        seconds = parseInt(timeStr, 10);
+        seconds = parseFloat(timeStr);
       }
       return { seconds, element: btn };
     });
