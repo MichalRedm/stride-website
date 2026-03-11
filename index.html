@@ -315,21 +315,15 @@
             class="lg:col-span-2 relative animate-on-scroll opacity-0 translate-x-12 transition-all duration-700 ease-out [&.is-visible]:opacity-100 [&.is-visible]:translate-x-0">
             <div
               class="relative rounded-2xl p-3 bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl hover:shadow-2xl hover:scale-[1.02] transition-all duration-500">
-              <!-- Placeholder for iframe -->
-              <div
-                class="aspect-video bg-slate-800 rounded-xl overflow-hidden relative flex items-center justify-center group cursor-pointer">
-                <div class="text-slate-400 font-inter text-sm flex flex-col items-center">
-                  <div
-                    class="w-16 h-16 mb-4 rounded-full bg-slate-700/80 flex items-center justify-center group-hover:bg-highlight-action transition-colors duration-300">
-                    <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
-                      <path
-                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z">
-                      </path>
-                    </svg>
-                  </div>
-                  <span class="group-hover:text-white transition-colors">[ YouTube / Vimeo Video Embed ]</span>
-                </div>
-              </div>
+              <iframe
+                id="demo-video"
+                class="w-full aspect-video rounded-xl shadow-lg"
+                src="https://www.youtube.com/embed/BdVDFLVrUXE?enablejsapi=1&rel=0"
+                title="STRIDE Interactive Demo"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
+              </iframe>
             </div>
           </div>
         </div>

@@ -60,5 +60,122 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-});
 
+  // --- Video Timestamp Functionality ---
+  const videoIframe = document.getElementById('demo-video');
+  const timestampContainer = document.querySelector('#demo .overflow-y-auto');
+  const timestampButtons = document.querySelectorAll('#demo .overflow-y-auto > div');
+
+  if (videoIframe && timestampButtons.length > 0) {
+    // Parse timestamps
+    const timestamps = Array.from(timestampButtons).map(btn => {
+      const timeSpan = btn.querySelector('span');
+      const timeStr = timeSpan ? timeSpan.textContent.trim() : '0:00';
+      const parts = timeStr.split(':');
+      let seconds = 0;
+      if (parts.length === 2) {
+        seconds = parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
+      } else if (parts.length === 3) {
+        seconds = parseInt(parts[0], 10) * 3600 + parseInt(parts[1], 10) * 60 + parseInt(parts[2], 10);
+      } else {
+        seconds = parseInt(timeStr, 10);
+      }
+      return { seconds, element: btn };
+    });
+
+    // Load YouTube IFrame API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    let player;
+    let timeUpdateInterval;
+    let currentActiveIndex = -1;
+
+    window.onYouTubeIframeAPIReady = function() {
+      player = new YT.Player('demo-video', {
+        events: {
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    };
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING) {
+        updateActiveTimestamp();
+        timeUpdateInterval = setInterval(updateActiveTimestamp, 250);
+      } else {
+        clearInterval(timeUpdateInterval);
+      }
+    }
+
+    function updateActiveTimestamp() {
+      if (!player || !player.getCurrentTime) return;
+      const currentTime = player.getCurrentTime();
+      
+      let activeIndex = 0;
+      for (let i = 0; i < timestamps.length; i++) {
+        if (currentTime >= timestamps[i].seconds) {
+          activeIndex = i;
+        } else {
+          break;
+        }
+      }
+
+      if (activeIndex !== currentActiveIndex) {
+        currentActiveIndex = activeIndex;
+        
+        timestamps.forEach((item, index) => {
+          const title = item.element.querySelector('h4');
+          if (index === activeIndex) {
+            item.element.classList.add('bg-white', 'border-slate-200', 'shadow-md');
+            item.element.classList.remove('border-transparent');
+            if (title) {
+              title.classList.add('text-secondary-accent');
+              title.classList.remove('text-primary-dark', 'group-hover:text-secondary-accent');
+            }
+            
+            if (timestampContainer) {
+              const containerHalf = timestampContainer.clientHeight / 2;
+              const itemHalf = item.element.clientHeight / 2;
+              const scrollPos = (item.element.offsetTop - timestampContainer.offsetTop) - containerHalf + itemHalf;
+              timestampContainer.scrollTo({
+                top: scrollPos,
+                behavior: 'smooth'
+              });
+            }
+          } else {
+            item.element.classList.remove('bg-white', 'border-slate-200', 'shadow-md');
+            item.element.classList.add('border-transparent');
+            if (title) {
+              title.classList.remove('text-secondary-accent');
+              title.classList.add('text-primary-dark', 'group-hover:text-secondary-accent');
+            }
+          }
+        });
+      }
+    }
+
+    // Click handling
+    timestamps.forEach((item) => {
+      item.element.addEventListener('click', () => {
+        if (player && player.seekTo) {
+          player.seekTo(item.seconds, true);
+          player.playVideo();
+        } else {
+          videoIframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: 'seekTo',
+            args: [item.seconds, true]
+          }), '*');
+          videoIframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: 'playVideo',
+            args: []
+          }), '*');
+        }
+      });
+    });
+  }
+});
