@@ -63,10 +63,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Video Timestamp Functionality ---
   const videoIframe = document.getElementById('demo-video');
-  const timestampContainer = document.querySelector('#demo .overflow-y-auto');
-  const timestampButtons = document.querySelectorAll('#demo .overflow-y-auto > div');
+  const timestampContainer = document.getElementById('timestamps-container');
 
-  if (videoIframe && timestampButtons.length > 0) {
+  if (videoIframe && timestampContainer) {
+    // Fetch timestamps from JSON
+    fetch('./assets/data/timestamps.json')
+      .then(response => response.json())
+      .then(data => {
+        // Render timestamps
+        data.forEach((item) => {
+          const div = document.createElement('div');
+          div.className = "flex gap-4 items-start p-3 hover:bg-white border border-transparent hover:border-slate-100 rounded-lg shadow-sm hover:shadow-md transition-all cursor-pointer group";
+          div.innerHTML = `
+            <span class="text-sm font-bold text-secondary-accent w-12 pt-1 font-inter">${item.time}</span>
+            <div class="flex-1">
+              <h4 class="font-bold text-primary-dark group-hover:text-secondary-accent transition-colors">${item.title}</h4>
+              <p class="text-xs text-slate-500 mt-1">${item.description}</p>
+            </div>
+          `;
+          timestampContainer.appendChild(div);
+        });
+
+        initVideoTimestamps();
+      })
+      .catch(error => console.error("Error loading timestamps:", error));
+  }
+
+  function initVideoTimestamps() {
+    const timestampButtons = timestampContainer.querySelectorAll(':scope > div');
+    if (timestampButtons.length === 0) return;
+
     // Parse timestamps
     const timestamps = Array.from(timestampButtons).map(btn => {
       const timeSpan = btn.querySelector('span');

@@ -1,0 +1,37 @@
+[
+  {
+    "time": "0:00",
+    "title": "Introduction",
+    "description": "Why traditional detection methods are insufficient."
+  },
+  {
+    "time": "0:45",
+    "title": "Configuration",
+    "description": "Setting block sizes and selecting Hyperplane drift."
+  },
+  {
+    "time": "1:30",
+    "title": "Model Layer",
+    "description": "Utilizing DDM for error rate spikes."
+  },
+  {
+    "time": "2:15",
+    "title": "Data Layer Diagnostics",
+    "description": "Inspecting class shifts and mapping X-means clusters."
+  },
+  {
+    "time": "3:00",
+    "title": "Decision Boundaries",
+    "description": "Visualizing Supervised Decision Boundary Maps."
+  },
+  {
+    "time": "3:45",
+    "title": "Feature Importance",
+    "description": "Comparing metrics vs. their importance as drift indicator."
+  },
+  {
+    "time": "4:30",
+    "title": "Conclusion",
+    "description": "Summary and invitation to explore the toolkit."
+  }
+]
